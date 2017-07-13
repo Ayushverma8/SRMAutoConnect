@@ -1,0 +1,2 @@
+firsttest:
+	python ./wifilogin.py
