@@ -1,10 +1,14 @@
-
 import urllib2, sys, time, socket
+from wireless import Wireless
 
-userName="USERNAME"
-password="PASSWORD"
+userName="RA1611xxxxxxxxx"
+password="xxxxxxxx"	
 
-sleepTime=30
+ssid = Wireless()
+
+print ssid.current()
+
+sleepTime=10
 socket.setdefaulttimeout(sleepTime)
 
 hostname = ['https://192.168.10.3/connect/PortalMain', '192.168.10.3']
@@ -12,15 +16,13 @@ url = "connect/PortalMain?action=doLoginSubmit&flowId=UserLogin&username=" + use
 
 file=None
 if file is None:
-	#try:
 	fh = open("/tmp/Wifi.log", 'w')
-	#except IOError:
-	#	print "Couldn't write to file /tmp/hathway.log";
+
 else:
 	try:
 		fh = open(file, 'w')
 	except IOError:
-		print "Couldn't write to file %s\n" % (file);
+		print "Error writing to file %s\n" % (file);
 
 def setup():
 	if len(sys.argv) > 1:
@@ -42,7 +44,7 @@ def checkInternetConnectivity():
 	finally:
 		return x
 
-def connectToHathway():
+def connectToSRM():
 
 	if len(hostname) == 0:
 		sys.exit(1)
@@ -50,20 +52,20 @@ def connectToHathway():
 		for host in hostname:
 			real_host = "http://" + host + url
 			try:
-				local_write("%s\tTrying to authenticate to server %s\n" % (time.ctime(), real_host) )
+				local_write("%s\tAuthenticating ...\n" % time.ctime() )
 				urllib2.urlopen(real_host)
 			except:
-				local_write("%s\tFailed to connect to %s Retrying\n" % (time.ctime(), real_host) )
+				local_write("%s\tFailed, Retrying ...\n" % time.ctime() )
 				continue
 	
 setup()
 while 1==1:
 	if checkInternetConnectivity() == 0:
-		local_write("%s\tInternet connectivity is dead. Trying to contact SRM WiFi auth severs.\n" % (time.ctime() ) )
-		connectToHathway()
+		local_write("%s\tConnectivity error.\n" % (time.ctime() ) )
+		connectToSRM()
 		time.sleep(sleepTime)
 		continue
 	else:
-		local_write("%s\tInternet connectivity alive. Sleeping for %s seconds.\n" % (time.ctime(), sleepTime) )
+		local_write("%s\tConnected.\n" % (time.ctime()) )
 		time.sleep(sleepTime)
 		continue 
