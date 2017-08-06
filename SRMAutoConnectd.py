@@ -67,3 +67,4 @@ while 1==1:
 		local_write("%s\tInternet connectivity alive. Sleeping for %s seconds.\n" % (time.ctime(), sleepTime) )
 		time.sleep(sleepTime)
 		continue 
+		
