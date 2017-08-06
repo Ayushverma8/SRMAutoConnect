@@ -14,7 +14,7 @@ file=None
 if file is None:
 	#try:
 	fh = open("/tmp/Wifi.log", 'w')
-	#except IOError:
+	#except IOError: 
 	#	print "Couldn't write to file /tmp/hathway.log";
 else:
 	try:
